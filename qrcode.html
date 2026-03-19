@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>多肉課程 QR Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --sage: #7aaa7a;
+    --sage-light: #b8d4b8;
+    --cream: #faf7f2;
+    --dark: #2a2520;
+    --mid: #5c5248;
+    --light-mid: #9c8e82;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg, #1a2e1a 0%, #2e5030 50%, #5a8a50 100%);
+    padding: 48px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 15% 85%, rgba(138,171,138,0.2) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 85% 15%, rgba(196,120,90,0.1) 0%, transparent 60%);
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    color: var(--sage-light);
+    border: 1px solid rgba(184,212,184,0.4);
+    padding: 5px 16px;
+    border-radius: 30px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.12em;
+    position: relative;
+  }
+
+  /* CARDS */
+  .cards {
+    padding: 28px 20px 60px;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .qr-card {
+    background: white;
+    border-radius: 24px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 24px rgba(42,37,32,0.09);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .qr-card:nth-child(1) { animation-delay: 0.05s; border-top: 4px solid #7aaa7a; }
+  .qr-card:nth-child(2) { animation-delay: 0.15s; border-top: 4px solid #c4785a; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .qr-icon {
+    width: 52px; height: 52px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+  }
+  .qr-card:nth-child(1) .qr-icon { background: #eaf4ea; }
+  .qr-card:nth-child(2) .qr-icon { background: #fdf0e8; }
+  .qr-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    color: var(--light-mid);
+    text-align: center;
+  }
+  .qr-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--dark);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+  .qr-desc {
+    font-size: 0.78rem;
+    color: var(--mid);
+    text-align: center;
+    line-height: 1.7;
+  }
+  /* QR code box */
+  .qr-box {
+    background: white;
+    padding: 14px;
+    border-radius: 16px;
+    border: 1px solid #eee;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .qr-box canvas,
+  .qr-box img {
+    display: block;
+    border-radius: 4px;
+  }
+  .qr-url {
+    font-size: 0.68rem;
+    color: var(--light-mid);
+    letter-spacing: 0.03em;
+    text-align: center;
+    word-break: break-all;
+    line-height: 1.6;
+  }
+  .qr-chip {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .qr-card:nth-child(1) .qr-chip { background: #eaf4ea; color: #3a7a3a; }
+  .qr-card:nth-child(2) .qr-chip { background: #fdf0e8; color: #c4785a; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--dark);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .footer p {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 0.95rem;
+    color: var(--sage-light);
+    letter-spacing: 0.08em;
+    line-height: 1.9;
+  }
+  .footer span {
+    display: block;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.2em;
+    margin-top: 10px;
+  }
+
+  @media print {
+    body { background: white; }
+    .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">SCAN TO OPEN</div>
+  <h1>掃一下<br>帶走你的多肉知識</h1>
+  <p>課程資源 · 隨掃隨用</p>
+</div>
+
+<div class="cards">
+
+  <!-- Card 1: Quiz -->
+  <div class="qr-card">
+    <div class="qr-icon">🌵</div>
+    <div class="qr-label">PERSONALITY QUIZ</div>
+    <div class="qr-title">你的多肉，就是你</div>
+    <div class="qr-desc">選一株最心動的多肉植物<br>發現你的人格特質</div>
+    <div class="qr-box" id="qr1"></div>
+    <div class="qr-url">wishlite.github.io/succulent-quiz/</div>
+    <span class="qr-chip">多肉人格測驗</span>
+  </div>
+
+  <!-- Card 2: Care -->
+  <div class="qr-card">
+    <div class="qr-icon">🪴</div>
+    <div class="qr-label">CARE GUIDE</div>
+    <div class="qr-title">移盆完，這樣照顧它</div>
+    <div class="qr-desc">5 個步驟<br>讓新家的多肉安心適應</div>
+    <div class="qr-box" id="qr2"></div>
+    <div class="qr-url">wishlite.github.io/succulent-quiz/care.html</div>
+    <span class="qr-chip">移盆照顧指南</span>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>掃描 QR Code<br>用手機直接開啟</p>
+  <span>SUCCULENT · SOUL · STORY</span>
+</div>
+
+<script>
+  new QRCode(document.getElementById('qr1'), {
+    text: 'https://wishlite.github.io/succulent-quiz/',
+    width: 180,
+    height: 180,
+    colorDark: '#2a2520',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  new QRCode(document.getElementById('qr2'), {
+    text: 'https://wishlite.github.io/succulent-quiz/care.html',
+    width: 180,
+    height: 180,
+    colorDark: '#2a2520',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+</script>
+</body>
+</html>
