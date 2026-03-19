@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>多肉大補帖 · Q&A</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #7aaa7a;
+    --sage-light: #b8d4b8;
+    --sage-pale: #eaf2ea;
+    --terracotta: #c4785a;
+    --cream: #faf7f2;
+    --warm-white: #f5f0eb;
+    --dark: #2a2520;
+    --mid: #5c5248;
+    --light-mid: #9c8e82;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #1a2e1a 0%, #2e5030 50%, #5a8a50 100%);
+    padding: 50px 24px 38px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 10% 90%, rgba(138,171,138,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 90% 10%, rgba(196,120,90,0.1) 0%, transparent 60%);
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    color: var(--sage-light);
+    border: 1px solid rgba(184,212,184,0.4);
+    padding: 5px 16px;
+    border-radius: 30px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(2rem, 8vw, 3rem);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.12em;
+    position: relative;
+    margin-bottom: 32px;
+  }
+  /* category pills */
+  .hero-cats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+  }
+  .hero-cat {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.75);
+    border: 1px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .hero-cat:hover, .hero-cat.active {
+    background: rgba(138,171,138,0.3);
+    border-color: var(--sage-light);
+    color: #fff;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 28px 0 12px;
+  }
+  .section-icon {
+    width: 38px; height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: 0.05em;
+  }
+  .section-count {
+    margin-left: auto;
+    font-size: 0.65rem;
+    color: var(--light-mid);
+    letter-spacing: 0.1em;
+  }
+
+  /* category colours */
+  .cat-water .section-icon { background: #e0eef8; }
+  .cat-sun   .section-icon { background: #fdf4e0; }
+  .cat-color .section-icon { background: #f4ece0; }
+  .cat-soil  .section-icon { background: #ece8e0; }
+  .cat-grow  .section-icon { background: #eaf4ea; }
+  .cat-sos   .section-icon { background: #fce8e8; }
+  .cat-misc  .section-icon { background: #f0ecf8; }
+
+  /* ── ACCORDION ── */
+  .qa-list { display: flex; flex-direction: column; gap: 10px; padding-bottom: 8px; }
+  .qa-item {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(42,37,32,0.07);
+    transition: box-shadow 0.2s;
+  }
+  .qa-item.open { box-shadow: 0 6px 24px rgba(42,37,32,0.12); }
+  .qa-q {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .qa-q-num {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--light-mid);
+    flex-shrink: 0;
+    min-width: 24px;
+  }
+  .qa-q-text {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--dark);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .qa-arrow {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--warm-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    color: var(--light-mid);
+    transition: transform 0.3s, background 0.2s;
+  }
+  .qa-item.open .qa-arrow {
+    transform: rotate(180deg);
+    background: var(--sage-pale);
+    color: var(--sage);
+  }
+  .qa-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .qa-item.open .qa-a { max-height: 600px; }
+  .qa-a-inner {
+    padding: 0 18px 18px 54px;
+    font-size: 0.85rem;
+    color: var(--mid);
+    line-height: 1.9;
+  }
+  .qa-a-inner p { margin-bottom: 8px; }
+  .qa-a-inner p:last-child { margin-bottom: 0; }
+  .qa-tip {
+    display: inline-block;
+    background: var(--sage-pale);
+    color: #3a6a3a;
+    font-size: 0.72rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 8px;
+    letter-spacing: 0.04em;
+  }
+  .qa-tip.warn { background: #fdf4e0; color: #8a6020; }
+  .qa-tip.alert { background: #fce8e8; color: #a03030; }
+  .qa-divider { height: 1px; background: var(--warm-white); margin: 0 18px 0 54px; }
+
+  /* highlight text */
+  strong { color: var(--dark); font-weight: 600; }
+  em { color: var(--terracotta); font-style: normal; font-weight: 500; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--dark);
+    padding: 32px 24px;
+    text-align: center;
+    margin-top: 40px;
+  }
+  .footer-plants {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .footer p {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 0.95rem;
+    color: var(--sage-light);
+    letter-spacing: 0.08em;
+    line-height: 1.9;
+  }
+  .footer span {
+    display: block;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.2em;
+    margin-top: 12px;
+  }
+
+  /* scroll offset for category jump */
+  .cat-anchor { scroll-margin-top: 16px; }
+
+  /* fade-in on load */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section { animation: fadeUp 0.5s ease both; }
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.10s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.20s; }
+  .section:nth-child(5) { animation-delay: 0.25s; }
+  .section:nth-child(6) { animation-delay: 0.30s; }
+  .section:nth-child(7) { animation-delay: 0.35s; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">SUCCULENT Q&amp;A</div>
+  <h1>多肉大補帖</h1>
+  <p>新手必讀 · 常見問題全收錄</p>
+  <div class="hero-cats">
+    <span class="hero-cat" onclick="jumpTo('water')">💧 澆水</span>
+    <span class="hero-cat" onclick="jumpTo('sun')">☀️ 光照</span>
+    <span class="hero-cat" onclick="jumpTo('color')">🎨 變色</span>
+    <span class="hero-cat" onclick="jumpTo('soil')">🪴 土&盆</span>
+    <span class="hero-cat" onclick="jumpTo('grow')">🌱 繁殖</span>
+    <span class="hero-cat" onclick="jumpTo('sos')">🆘 救救它</span>
+    <span class="hero-cat" onclick="jumpTo('misc')">✨ 其他</span>
+  </div>
+</div>
+
+<!-- ====== 1. 澆水 ====== -->
+<div class="section cat-water cat-anchor" id="water">
+  <div class="section-header">
+    <div class="section-icon">💧</div>
+    <div class="section-title">澆水篇</div>
+    <div class="section-count">6 題</div>
+  </div>
+  <div class="qa-list">
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q1</span>
+        <span class="qa-q-text">多久澆一次水？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>沒有固定天數，<strong>關鍵是「乾透再澆」</strong>。用手指插入土壤第一節，感覺完全乾燥才澆。</p>
+        <p>一般來說：室外通風處 <em>1〜2 週一次</em>，室內陰涼處 <em>2〜4 週一次</em>。</p>
+        <p>夏天悶熱期間反而要減少澆水，冬天低溫時也要拉長間隔。</p>
+        <span class="qa-tip">寧可少澆，不要多澆</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q2</span>
+        <span class="qa-q-text">澆水要澆多少？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p><strong>澆就要澆透</strong>——從盆底流出水為止，讓根系均勻吸收，再讓土壤完全乾燥。</p>
+        <p>淺淺澆一點點反而會讓根系朝上生長找水，讓根系變弱。</p>
+        <span class="qa-tip">澆透 → 等乾 → 再澆，這才是正確循環</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q3</span>
+        <span class="qa-q-text">早上澆還是晚上澆？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>建議<strong>上午澆水</strong>。白天溫度較高，多餘的水分蒸發快，葉片和土壤不會長時間潮濕。</p>
+        <p>晚上澆水容易讓盆土整夜保持濕潤，在通風不佳的環境下容易滋生病菌、引發爛根。</p>
+        <span class="qa-tip">上午澆水 > 晚上澆水</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q4</span>
+        <span class="qa-q-text">可以噴水霧嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>不建議用噴霧澆水。噴霧只讓表面土壤短暫濕潤，<strong>根系根本喝不到水</strong>，反而容易讓葉片長期處於潮濕狀態，引發腐爛或白粉病。</p>
+        <p>偶爾用噴霧清潔葉面灰塵是可以的，但不能作為澆水方式。</p>
+        <span class="qa-tip warn">噴霧 ≠ 澆水，別被騙了</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q5</span>
+        <span class="qa-q-text">葉子乾癟、皺皺的，是缺水嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>有可能是缺水，也有可能是<strong>爛根後無法吸水</strong>造成的——症狀看起來一樣，但處理方式完全相反！</p>
+        <p>先挖開土壤檢查根系：根系白嫩健康 → 確實是缺水，正常澆透即可。根系黑爛 → 需要緊急急救，參考「救救它」篇。</p>
+        <span class="qa-tip warn">乾癟不等於缺水，先看根再決定</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q6</span>
+        <span class="qa-q-text">出去旅遊一週，怎麼辦？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>多肉非常耐旱，<strong>一週完全不是問題</strong>！出發前澆透一次，回來後正常照顧就好。</p>
+        <p>如果是兩週以上，可以請朋友幫忙澆一次，或放在散光通風處減少水分蒸發。</p>
+        <span class="qa-tip">多肉比你還能忍耐，放心出門</span>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== 2. 光照 ====== -->
+<div class="section cat-sun cat-anchor" id="sun">
+  <div class="section-header">
+    <div class="section-icon">☀️</div>
+    <div class="section-title">光照篇</div>
+    <div class="section-count">5 題</div>
+  </div>
+  <div class="qa-list">
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q1</span>
+        <span class="qa-q-text">多肉需要多少陽光？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>大多數多肉喜歡<strong>每天 4〜6 小時的充足日照</strong>，光線越足夠，顏色越漂亮、株型越緊實。</p>
+        <p>陽台、窗邊是最理想的位置。完全遮蔭的室內可能會造成徒長。</p>
+        <span class="qa-tip">光線充足 = 顏色美 + 不徒長</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q2</span>
+        <span class="qa-q-text">放在室內，光線不夠怎麼辦？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>可以選擇耐陰品種（如蘆薈、十二之卷），或放在最靠近窗戶的位置。</p>
+        <p>也可以使用<strong>植物補光燈</strong>（色溫 4000〜6500K），每天補光 8〜12 小時。</p>
+        <p>定期輪換位置，讓每株多肉都有機會曬到太陽。</p>
+        <span class="qa-tip">補光燈是室內族的好夥伴</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q3</span>
+        <span class="qa-q-text">多肉徒長是怎麼回事？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>徒長 = 光線不足時，多肉拼命<strong>向光源伸展莖部</strong>，導致葉間距拉大、株型鬆散、顏色變淡。</p>
+        <p>解決方法：移到光線更充足的位置，徒長的部分無法恢復，但新長出的葉片會慢慢變正常。</p>
+        <p>也可以把徒長的頭砍下來，重新扦插讓它長出緊密的新株。</p>
+        <span class="qa-tip warn">徒長 = 在跟你說「我需要更多陽光！」</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q4</span>
+        <span class="qa-q-text">夏天大太陽可以直接曬嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>夏天正午的強光和高溫會造成<strong>曬傷</strong>（葉片出現褐色或白色斑塊），特別是剛移盆或剛買回來的多肉。</p>
+        <p>建議夏天午後遮蔭（11:00〜15:00），早上和下午的陽光就夠了。</p>
+        <p>一些強健品種如仙人掌類耐曬程度更高，需視品種判斷。</p>
+        <span class="qa-tip warn">夏天午後強光小心曬傷</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q5</span>
+        <span class="qa-q-text">可以突然從室內移到室外曬太陽嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>不行！需要<strong>循序漸進適應</strong>，突然從陰暗處移到強光下，葉片來不及適應會曬傷。</p>
+        <p>正確做法：先放在有遮蔭的戶外 3〜5 天，再逐漸增加日照時間，約 1〜2 週才完全適應。</p>
+        <span class="qa-tip">日照變化要慢慢來，別急</span>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== 3. 變色 ====== -->
+<div class="section cat-color cat-anchor" id="color">
+  <div class="section-header">
+    <div class="section-icon">🎨</div>
+    <div class="section-title">變色篇</div>
+    <div class="section-count">4 題</div>
+  </div>
+  <div class="qa-list">
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q1</span>
+        <span class="qa-q-text">多肉變色是怎麼回事？正常嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p><strong>完全正常，而且是美麗的特性！</strong>多肉在壓力下（溫差大、強光、少水）會啟動花青素保護機制，讓葉片變成紅、橙、紫、粉等鮮豔色彩。</p>
+        <p>台灣秋冬（10〜2月）是多肉最美的季節，溫差大讓顏色發揮到極致。</p>
+        <span class="qa-tip">變色 = 多肉在展現它最美的樣子</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q2</span>
+        <span class="qa-q-text">怎麼讓多肉顏色更鮮豔？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>三個關鍵：<strong>大溫差 + 強光照 + 少水分</strong>。</p>
+        <p>• 日夜溫差超過 10°C 效果最明顯（秋冬自然達到）</p>
+        <p>• 增加日照時間，讓紫外線刺激色素</p>
+        <p>• 適度減少澆水頻率，讓它有輕微水分壓力</p>
+        <p>注意：過度虐待會造成脫水，要拿捏分寸。</p>
+        <span class="qa-tip">溫差 + 光照 + 少水 = 美麗上色</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q3</span>
+        <span class="qa-q-text">多肉變黃是缺肥嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>下方老葉自然變黃脫落是<strong>正常代謝</strong>，不是問題。</p>
+        <p>如果是大面積變黃、新葉也泛黃，可能原因有：過度澆水、光線不足、根系問題，或者真的缺乏氮肥。</p>
+        <p>先排除水和光的問題，確定生長正常再考慮施肥。</p>
+        <span class="qa-tip warn">變黃不一定是缺肥，先找根本原因</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q4</span>
+        <span class="qa-q-text">葉片出現黑斑或褐色斑塊？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p><strong>黑斑</strong>通常是腐爛（過濕或病菌）的警示，要立刻處理，避免蔓延。</p>
+        <p><strong>褐色斑塊</strong>多半是曬傷（強光直曬）或凍傷（低溫），受損葉片不會復原，但新葉會正常生長。</p>
+        <p>黑斑若出現在莖部，要特別注意是否有爛根，需要緊急急救。</p>
+        <span class="qa-tip alert">黑斑 = 警戒！立刻檢查根部</span>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== 4. 土&盆 ====== -->
+<div class="section cat-soil cat-anchor" id="soil">
+  <div class="section-header">
+    <div class="section-icon">🪴</div>
+    <div class="section-title">土壤 &amp; 盆器篇</div>
+    <div class="section-count">5 題</div>
+  </div>
+  <div class="qa-list">
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q1</span>
+        <span class="qa-q-text">多肉要用什麼土？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>必須用<strong>排水良好的介質</strong>，最重要的是「快乾」。</p>
+        <p>推薦配方：多肉專用土（或一般培養土）+ 顆粒介質（赤玉土、珍珠石、河沙）比例約 <em>5:5</em> 或 <em>4:6</em>。</p>
+        <p>絕對不要用一般花圃土或黏土，保水性太強會悶根。</p>
+        <span class="qa-tip">顆粒越多 = 排水越好 = 越安全</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q2</span>
+        <span class="qa-q-text">陶盆、瓷盆、塑膠盆有差嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p><strong>陶盆（素燒盆）</strong>：透氣透水，最適合多肉，土壤乾得快，不容易爛根。</p>
+        <p><strong>瓷盆</strong>：漂亮但不透氣，需要更謹慎控制澆水頻率。</p>
+        <p><strong>塑膠盆</strong>：輕便、保水，澆水頻率要減少，新手容易過澆。</p>
+        <p>無論什麼盆，<strong>一定要有排水孔</strong>，沒有排水孔的盆不適合種多肉。</p>
+        <span class="qa-tip">陶盆 > 瓷盆 > 塑膠盆（對多肉而言）</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q3</span>
+        <span class="qa-q-text">什麼時候要換盆？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>以下情況建議換盆：</p>
+        <p>• 根系從排水孔長出來<br>• 植株明顯大過盆器<br>• 土壤老化結塊、排水變差<br>• 每次澆水後土壤乾燥異常慢</p>
+        <p>換盆時機：<strong>春秋兩季</strong>最理想，避免夏季酷熱和冬季低溫。</p>
+        <span class="qa-tip">春秋換盆，讓它在好天氣適應新家</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q4</span>
+        <span class="qa-q-text">需要在土壤上鋪石頭嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>鋪面石（化妝砂）主要是<strong>美觀</strong>用，對植物生長沒有太大影響。</p>
+        <p>如果鋪太厚反而不容易判斷土壤乾濕，建議薄薄一層即可，或不鋪。</p>
+        <p>鋪面石不能代替顆粒介質的排水功能。</p>
+        <span class="qa-tip">鋪石是裝飾，不是必要的</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q5</span>
+        <span class="qa-q-text">需要施肥嗎？怎麼施？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>多肉生長慢，對肥料需求不高，<strong>不施肥也能活得好</strong>，施肥只是加分。</p>
+        <p>建議在生長旺季（春秋）使用稀釋過的緩效肥或液肥，<em>照說明書再減半濃度</em>施用。</p>
+        <p>夏季休眠期和冬季低溫期不施肥，新移盆的一個月內也不施肥。</p>
+        <span class="qa-tip warn">寧可少肥，不要過肥——肥傷比缺肥更難救</span>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== 5. 繁殖 ====== -->
+<div class="section cat-grow cat-anchor" id="grow">
+  <div class="section-header">
+    <div class="section-icon">🌱</div>
+    <div class="section-title">繁殖篇</div>
+    <div class="section-count">4 題</div>
+  </div>
+  <div class="qa-list">
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q1</span>
+        <span class="qa-q-text">葉插是什麼？怎麼做？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>葉插是多肉最常見的繁殖方式：<strong>摘下一片健康葉片，放在乾燥土壤上，等它自己長出新芽和根系</strong>。</p>
+        <p>步驟：① 輕輕旋轉取下完整葉片（不能斷裂）② 陰乾 1〜2 天讓傷口乾燥 ③ 平放在微濕土壤上 ④ 放在散光通風處，每週輕噴水一次 ⑤ 耐心等待 2〜8 週出芽</p>
+        <span class="qa-tip">葉片要完整，斷掉的不會成功</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q2</span>
+        <span class="qa-q-text">扦插怎麼做？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>扦插是將多肉的<strong>頭部或側芽剪下，插入土中生根</strong>，比葉插速度快很多。</p>
+        <p>步驟：① 用乾淨的剪刀剪下 ② 去除底部 2〜3 片葉子，露出莖部 ③ 陰乾 3〜5 天讓傷口結痂 ④ 插入乾燥土壤中 ⑤ 一週後開始少量給水，等根系長穩後正常照顧</p>
+        <span class="qa-tip">陰乾是關鍵，跳過這步容易爛莖</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q3</span>
+        <span class="qa-q-text">什麼季節繁殖最好？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p><strong>春季（3〜5月）和秋季（9〜11月）</strong>是最佳時機，溫度適宜、生長旺盛，成功率最高。</p>
+        <p>夏天高溫悶熱，傷口容易感染，成功率較低。冬天低溫生長緩慢，發根時間會拉很長。</p>
+        <span class="qa-tip">春秋繁殖，事半功倍</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q4</span>
+        <span class="qa-q-text">多肉會長側芽嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>很多品種會在主株旁邊長出<strong>側芽（小仔）</strong>，這是最不需要技巧的繁殖方式！</p>
+        <p>等側芽長到有幾片葉子的大小，用手或剪刀分離，陰乾後種入新盆即可。</p>
+        <p>群生的多肉（如蔓蓮、景天屬）特別容易側生，一盆可以變成一大群。</p>
+        <span class="qa-tip">等它自己長側芽，是最輕鬆的繁殖</span>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== 6. 救救它 ====== -->
+<div class="section cat-sos cat-anchor" id="sos">
+  <div class="section-header">
+    <div class="section-icon">🆘</div>
+    <div class="section-title">救救它篇</div>
+    <div class="section-count">5 題</div>
+  </div>
+  <div class="qa-list">
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q1</span>
+        <span class="qa-q-text">爛根了怎麼辦？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>不用放棄！爛根急救步驟：</p>
+        <p>① 將植株完整取出，把爛掉的黑根全部剪除 ② 保留白色健康根系 ③ 陰乾 2〜3 天讓傷口乾燥 ④ 重新種入新的排水介質 ⑤ 一週後少量給水，讓它慢慢恢復</p>
+        <p>如果根系完全爛掉，可以剪去莖部腐爛部分，從健康處扦插重新發根。</p>
+        <span class="qa-tip alert">發現爛根不要猶豫，立刻急救！</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q2</span>
+        <span class="qa-q-text">有小蟲子怎麼處理？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p><strong>介殼蟲</strong>（白色棉絮狀）：最常見。用棉花棒沾酒精點除，或噴灑稀釋的酒精水溶液，嚴重時換土並將根系清洗消毒。</p>
+        <p><strong>粉介殼蟲</strong>（藏在土裡）：需要換土，用殺蟲藥液浸泡根系消毒。</p>
+        <p><strong>蚜蟲</strong>：用水沖洗或噴灑稀釋苦楝油。</p>
+        <p>發現後隔離患株，避免傳染給其他植物。</p>
+        <span class="qa-tip warn">發現蟲子立刻隔離，避免傳染</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q3</span>
+        <span class="qa-q-text">多肉葉片一直掉落正常嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p><strong>下方老葉</strong>自然乾枯脫落是完全正常的代謝現象，不用擔心。</p>
+        <p>如果是<strong>中間或上部的葉片</strong>大量脫落，可能是：澆水過多、根系損傷、搬移撞擊、或病蟲害造成的異常。</p>
+        <p>輕碰就掉、葉片帶水分（不是乾枯），通常是過澆的警訊。</p>
+        <span class="qa-tip warn">老葉掉 = 正常；嫩葉掉 = 要注意</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q4</span>
+        <span class="qa-q-text">多肉軟軟的、整株塌下來？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>整株軟塌通常是<strong>嚴重缺水或根系問題</strong>造成的。</p>
+        <p>先挖出來看根系：若根白嫩 → 澆透水，幾天後會慢慢恢復；若根黑爛 → 立刻急救（參考爛根處理）。</p>
+        <p>如果莖部也開始變軟變黑，代表腐爛已往上蔓延，需要立刻剪除腐爛部分，從健康處重新扦插。</p>
+        <span class="qa-tip alert">軟塌是緊急訊號，不能拖</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q5</span>
+        <span class="qa-q-text">多肉一直養不活，問題出在哪？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>最常見的死因排行：</p>
+        <p>🥇 <strong>澆水太多</strong>（新手最常犯，爛根死亡）<br>🥈 <strong>光線不足</strong>（徒長後體質變弱）<br>🥉 <strong>土壤排水不良</strong>（保水太強悶根）<br>４ 移盆後馬上澆水（傷口未癒合感染）<br>５ 夏天高溫悶熱通風不良</p>
+        <p>其實多肉非常好養，只要<em>少澆水 + 多曬太陽 + 排水好的土</em>，很難死。</p>
+        <span class="qa-tip">少澆水是養好多肉最重要的一件事</span>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== 7. 其他 ====== -->
+<div class="section cat-misc cat-anchor" id="misc">
+  <div class="section-header">
+    <div class="section-icon">✨</div>
+    <div class="section-title">其他常見問題</div>
+    <div class="section-count">4 題</div>
+  </div>
+  <div class="qa-list">
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q1</span>
+        <span class="qa-q-text">多肉開花了，要剪掉嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>看你喜不喜歡！<strong>花朵很美，欣賞完可以剪掉</strong>。</p>
+        <p>開花會消耗大量養分，如果想讓植株維持漂亮的狀態，可以在花苞期就把花梗剪去。有些品種（如部分石蓮屬）開花後母株會死亡，但已長出側芽，不用太難過。</p>
+        <span class="qa-tip">欣賞完就剪，讓養分回到葉片</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q2</span>
+        <span class="qa-q-text">葉片上有白色粉末，可以擦掉嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>那是<strong>葉粉（蠟質）</strong>，是多肉自然產生的保護層，可以減少水分蒸發、防止曬傷。</p>
+        <p><em>千萬不要擦！</em>葉粉一旦被抹去就無法再生，那個部位會永遠留下指紋痕跡或暗沉。</p>
+        <p>澆水時也要避免水直接打到葉面，用底部給水或小心澆根部。</p>
+        <span class="qa-tip alert">葉粉是保護層，擦掉就回不來了</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q3</span>
+        <span class="qa-q-text">多肉冬天要特別照顧嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>台灣冬天對大多數多肉是<strong>生長旺季</strong>，反而是顏色最美的時候！</p>
+        <p>需要注意：低於 5°C 要移入室內（或遮蔽防霜）；冬天澆水頻率減少，等土完全乾透再澆；保持通風，避免在低溫時澆水造成凍傷。</p>
+        <p>夏天（7〜9月）才是台灣多肉最難熬的季節，悶熱高溫要特別注意通風和減少澆水。</p>
+        <span class="qa-tip">台灣冬天是多肉最美的季節，好好欣賞！</span>
+      </div></div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q" onclick="toggle(this)">
+        <span class="qa-q-num">Q4</span>
+        <span class="qa-q-text">多肉對人和寵物有毒嗎？</span>
+        <span class="qa-arrow">▾</span>
+      </div>
+      <div class="qa-a"><div class="qa-a-inner">
+        <p>大多數常見多肉（景天科、仙人掌科）對人體無毒，但<strong>部分品種對貓狗有毒性</strong>，例如：玉樹（發財樹）、千里光屬、翡翠木等。</p>
+        <p>家有毛小孩建議查清楚品種，放在貓狗無法觸及的地方。蘆薈雖然對人無害，但貓狗誤食會腸胃不適。</p>
+        <span class="qa-tip warn">有寵物的家，買多肉前先確認是否有毒</span>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-plants">
+    <svg width="28" height="34" viewBox="0 0 28 34" fill="none">
+      <ellipse cx="14" cy="31" rx="8" ry="3" fill="#1a3a1a" opacity="0.5"/>
+      <rect x="11" y="12" width="6" height="18" rx="3" fill="#5aaa50"/>
+      <rect x="5" y="9" width="5" height="15" rx="2.5" fill="#4a9a40" transform="rotate(-8,7,16)"/>
+      <rect x="18" y="10" width="5" height="14" rx="2.5" fill="#6ab460" transform="rotate(8,20,17)"/>
+    </svg>
+    <svg width="26" height="32" viewBox="0 0 26 32" fill="none">
+      <ellipse cx="13" cy="29" rx="7" ry="2.5" fill="#1a3a1a" opacity="0.5"/>
+      <ellipse cx="13" cy="20" rx="7" ry="9" fill="#e8c0d0"/>
+      <ellipse cx="6" cy="17" rx="6" ry="8" fill="#d8b0c0" transform="rotate(-40,6,17)"/>
+      <ellipse cx="20" cy="17" rx="6" ry="8" fill="#e8c0d0" transform="rotate(40,20,17)"/>
+      <circle cx="13" cy="14" r="4" fill="#f8e0ea"/>
+    </svg>
+    <svg width="28" height="34" viewBox="0 0 28 34" fill="none">
+      <ellipse cx="14" cy="31" rx="8" ry="3" fill="#1a3a1a" opacity="0.5"/>
+      <ellipse cx="14" cy="21" rx="8" ry="10" fill="#b8d0e0"/>
+      <ellipse cx="6" cy="17" rx="7" ry="9" fill="#a8c4d8" transform="rotate(-35,6,17)"/>
+      <ellipse cx="22" cy="17" rx="7" ry="9" fill="#b8d0e0" transform="rotate(35,22,17)"/>
+      <circle cx="14" cy="14" r="3" fill="#d8e8f4"/>
+    </svg>
+  </div>
+  <p>多肉不難養<br>難的是忍住不要一直澆水</p>
+  <span>SUCCULENT · SOUL · STORY</span>
+</div>
+
+<script>
+  function toggle(el) {
+    const item = el.closest('.qa-item');
+    const isOpen = item.classList.contains('open');
+    // close all in same list
+    const list = item.closest('.qa-list');
+    list.querySelectorAll('.qa-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  function jumpTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // highlight active pill
+    document.querySelectorAll('.hero-cat').forEach(el => el.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
