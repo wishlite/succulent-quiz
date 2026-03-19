@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>移盆完，這樣照顧它</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #7aaa7a;
+    --sage-light: #b8d4b8;
+    --sage-pale: #eaf2ea;
+    --terracotta: #c4785a;
+    --cream: #faf7f2;
+    --warm-white: #f5f0eb;
+    --dark: #2a2520;
+    --mid: #5c5248;
+    --light-mid: #9c8e82;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #1a2e1a 0%, #2e5030 50%, #5a8a50 100%);
+    padding: 50px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 10% 90%, rgba(138,171,138,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 90% 10%, rgba(196,120,90,0.1) 0%, transparent 60%);
+  }
+  .hero-deco {
+    position: absolute;
+    top: 0; right: 0;
+    width: 160px; height: 160px;
+    opacity: 0.12;
+  }
+  .hero-deco2 {
+    position: absolute;
+    bottom: 0; left: -20px;
+    width: 120px; height: 120px;
+    opacity: 0.1;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    color: var(--sage-light);
+    border: 1px solid rgba(184,212,184,0.4);
+    padding: 5px 16px;
+    border-radius: 30px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .hero p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+    position: relative;
+  }
+  .hero-plants {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 30px;
+    position: relative;
+  }
+
+  /* ── CARDS ── */
+  .cards {
+    padding: 28px 16px 60px;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px 20px 20px 18px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    box-shadow: 0 4px 20px rgba(42,37,32,0.07);
+    animation: slideIn 0.5s ease both;
+    border-left: 4px solid transparent;
+  }
+  .card:nth-child(1) { animation-delay: 0.05s; border-left-color: #e8a878; }
+  .card:nth-child(2) { animation-delay: 0.10s; border-left-color: #7aaa7a; }
+  .card:nth-child(3) { animation-delay: 0.15s; border-left-color: #78a8c8; }
+  .card:nth-child(4) { animation-delay: 0.20s; border-left-color: #a888c8; }
+  .card:nth-child(5) { animation-delay: 0.25s; border-left-color: #d48888; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .card-icon-wrap {
+    flex-shrink: 0;
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  .card:nth-child(1) .card-icon-wrap { background: #fdf0e8; }
+  .card:nth-child(2) .card-icon-wrap { background: #eaf4ea; }
+  .card:nth-child(3) .card-icon-wrap { background: #e8f2f8; }
+  .card:nth-child(4) .card-icon-wrap { background: #f2eaf8; }
+  .card:nth-child(5) .card-icon-wrap { background: #fceaea; }
+  .card-body { flex: 1; }
+  .card-num {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--light-mid);
+    margin-bottom: 4px;
+  }
+  .card-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.8;
+  }
+  .card-tip {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .card:nth-child(1) .card-tip { background: #fdf0e8; color: #c4785a; }
+  .card:nth-child(2) .card-tip { background: #eaf4ea; color: #3a7a3a; }
+  .card:nth-child(3) .card-tip { background: #e8f2f8; color: #2a6080; }
+  .card:nth-child(4) .card-tip { background: #f2eaf8; color: #6a3a90; }
+  .card:nth-child(5) .card-tip { background: #fceaea; color: #a03030; }
+
+  /* ── FOOTER BANNER ── */
+  .footer-banner {
+    background: var(--dark);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .footer-banner p {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    color: var(--sage-light);
+    letter-spacing: 0.08em;
+    line-height: 1.9;
+  }
+  .footer-banner span {
+    color: rgba(255,255,255,0.3);
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    margin-top: 12px;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <!-- deco SVG circles -->
+  <svg class="hero-deco" viewBox="0 0 160 160" fill="none">
+    <circle cx="120" cy="40" r="80" fill="white"/>
+    <circle cx="80" cy="80" r="50" fill="white" opacity="0.5"/>
+  </svg>
+  <svg class="hero-deco2" viewBox="0 0 120 120" fill="none">
+    <circle cx="20" cy="100" r="80" fill="white"/>
+  </svg>
+
+  <div class="hero-tag">POST-REPOTTING CARE</div>
+  <h1>移盆完<br>這樣照顧它</h1>
+  <p>新家，需要一點時間適應</p>
+
+  <!-- mini plant row -->
+  <div class="hero-plants">
+    <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
+      <ellipse cx="18" cy="40" rx="10" ry="3.5" fill="#1a3a1a" opacity="0.5"/>
+      <rect x="15" y="18" width="6" height="22" rx="3" fill="#5aaa50"/>
+      <rect x="9"  y="14" width="5" height="18" rx="2.5" fill="#4a9a40" transform="rotate(-8,11,23)"/>
+      <rect x="22" y="15" width="5" height="17" rx="2.5" fill="#6ab460" transform="rotate(8,24,23)"/>
+    </svg>
+    <svg width="32" height="40" viewBox="0 0 32 40" fill="none">
+      <ellipse cx="16" cy="37" rx="9" ry="3" fill="#1a3a1a" opacity="0.5"/>
+      <ellipse cx="16" cy="26" rx="7" ry="9" fill="#b8dcd8"/>
+      <ellipse cx="8"  cy="22" rx="6" ry="8" fill="#a8ccc8" transform="rotate(-35,8,22)"/>
+      <ellipse cx="24" cy="22" rx="6" ry="8" fill="#b8dcd8" transform="rotate(35,24,22)"/>
+      <ellipse cx="16" cy="26" rx="7" ry="9" stroke="#e07080" stroke-width="1.2" fill="none"/>
+      <circle cx="16" cy="18" r="4" fill="#d0e8e4"/>
+    </svg>
+    <svg width="34" height="42" viewBox="0 0 34 42" fill="none">
+      <ellipse cx="17" cy="38" rx="10" ry="3.5" fill="#1a3a1a" opacity="0.5"/>
+      <ellipse cx="17" cy="28" rx="8" ry="10" fill="#e8c0d0"/>
+      <ellipse cx="9"  cy="24" rx="7" ry="9"  fill="#d8b0c0" transform="rotate(-40,9,24)"/>
+      <ellipse cx="25" cy="24" rx="7" ry="9"  fill="#e8c0d0" transform="rotate(40,25,24)"/>
+      <ellipse cx="17" cy="20" rx="4" ry="4" fill="#f0a0b0" opacity="0.7"/>
+      <circle  cx="17" cy="16" r="3.5" fill="#f8e0ea"/>
+    </svg>
+  </div>
+</div>
+
+<!-- CARE CARDS -->
+<div class="cards">
+
+  <!-- 1 -->
+  <div class="card">
+    <div class="card-icon-wrap">🩹</div>
+    <div class="card-body">
+      <div class="card-num">STEP 01</div>
+      <div class="card-title">一週先別澆水</div>
+      <div class="card-desc">移盆時根系多少會有小傷口，讓傷口自然癒合乾燥，才不容易爛根。</div>
+      <span class="card-tip">等待就是最好的照顧</span>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card">
+    <div class="card-icon-wrap">🌤️</div>
+    <div class="card-body">
+      <div class="card-num">STEP 02</div>
+      <div class="card-title">一週避開直射陽光</div>
+      <div class="card-desc">放在窗邊或陽台的散光處，讓根系慢慢熟悉新環境，不要急著曬太陽。</div>
+      <span class="card-tip">散光 > 強光</span>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card">
+    <div class="card-icon-wrap">💧</div>
+    <div class="card-body">
+      <div class="card-num">STEP 03</div>
+      <div class="card-title">第一次澆水：上午澆透</div>
+      <div class="card-desc">一週後第一次澆水，從上午澆到盆底有水流出。接著新根長出，就可以正常給水了。</div>
+      <span class="card-tip">澆就要澆透</span>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card">
+    <div class="card-icon-wrap">📅</div>
+    <div class="card-body">
+      <div class="card-num">STEP 04</div>
+      <div class="card-title">澆水頻率看環境</div>
+      <div class="card-desc">室外通風處：1〜2 週一次<br>室內陰涼處：2〜4 週一次</div>
+      <span class="card-tip">乾透再澆，不過度溺愛</span>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card">
+    <div class="card-icon-wrap">🚫</div>
+    <div class="card-body">
+      <div class="card-num">STEP 05</div>
+      <div class="card-title">先別急著施肥</div>
+      <div class="card-desc">確定植株開始正常生長後再施肥，太早施肥反而會傷害還在恢復中的根系。</div>
+      <span class="card-tip">穩定生長後再補充養分</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer-banner">
+  <p>
+    給它空間，給它時間<br>
+    它會用新芽告訴你<br>
+    它已經準備好了
+  </p>
+  <span>SUCCULENT · SOUL · STORY</span>
+</div>
+
+</body>
+</html>
