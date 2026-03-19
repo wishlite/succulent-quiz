@@ -88,6 +88,7 @@
   }
   .qr-card:nth-child(1) { animation-delay: 0.05s; border-top: 4px solid #7aaa7a; }
   .qr-card:nth-child(2) { animation-delay: 0.15s; border-top: 4px solid #c4785a; }
+  .qr-card:nth-child(3) { animation-delay: 0.25s; border-top: 4px solid #8080c0; }
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -102,6 +103,7 @@
   }
   .qr-card:nth-child(1) .qr-icon { background: #eaf4ea; }
   .qr-card:nth-child(2) .qr-icon { background: #fdf0e8; }
+  .qr-card:nth-child(3) .qr-icon { background: #eeecf8; }
   .qr-label {
     font-size: 0.62rem;
     letter-spacing: 0.22em;
@@ -156,6 +158,7 @@
   }
   .qr-card:nth-child(1) .qr-chip { background: #eaf4ea; color: #3a7a3a; }
   .qr-card:nth-child(2) .qr-chip { background: #fdf0e8; color: #c4785a; }
+  .qr-card:nth-child(3) .qr-chip { background: #eeecf8; color: #5050a0; }
 
   /* FOOTER */
   .footer {
@@ -217,6 +220,17 @@
     <span class="qr-chip">移盆照顧指南</span>
   </div>
 
+  <!-- Card 3: Q&A -->
+  <div class="qr-card">
+    <div class="qr-icon">📖</div>
+    <div class="qr-label">SUCCULENT Q&amp;A</div>
+    <div class="qr-title">多肉大補帖</div>
+    <div class="qr-desc">7 大分類・33 題常見問題<br>新手必讀知識全收錄</div>
+    <div class="qr-box" id="qr3"></div>
+    <div class="qr-url">wishlite.github.io/succulent-quiz/qa.html</div>
+    <span class="qr-chip">多肉大補帖 Q&amp;A</span>
+  </div>
+
 </div>
 
 <div class="footer">
@@ -236,6 +250,15 @@
 
   new QRCode(document.getElementById('qr2'), {
     text: 'https://wishlite.github.io/succulent-quiz/care.html',
+    width: 180,
+    height: 180,
+    colorDark: '#2a2520',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  new QRCode(document.getElementById('qr3'), {
+    text: 'https://wishlite.github.io/succulent-quiz/qa.html',
     width: 180,
     height: 180,
     colorDark: '#2a2520',
